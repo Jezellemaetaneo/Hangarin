@@ -2,7 +2,7 @@ from django.contrib import admin
 
 
 
-from .models import Priority, Category, Task, Note, SubTask
+from hangarinorg.models import Priority, Category, Task, Note, SubTask
 
 class SubTaskInline(admin.TabularInline):
     model = SubTask

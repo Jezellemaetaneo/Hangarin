@@ -6,6 +6,13 @@ from django.urls import reverse_lazy
 from hangarinorg.models import Priority, Category, Task, Note, SubTask 
 from django.db.models import Q
 from django.utils import timezone
+from django.shortcuts import render
+
+
+
+def index_view(request):
+    return render(request, 'home.html')
+
  
 
 class HomePageView(ListView):

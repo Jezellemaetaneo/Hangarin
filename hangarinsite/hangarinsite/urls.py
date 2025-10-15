@@ -22,7 +22,15 @@ from hangarinorg.views import (
     PriorityUpdateView, CategoryUpdateView, TaskUpdateView, NoteUpdateView, SubTaskUpdateView, 
     PriorityDeleteView, CategoryDeleteView, TaskDeleteView,NoteDeleteView, SubTaskDeleteView
 )
+from hangarinorg.views import index_view
+
+
+
 urlpatterns = [
+    
+    path('', index_view, name='home'),  # Serves index.html at root URL
+
+
     path("admin/", admin.site.urls),
     path('', HomePageView.as_view(), name='home'),
     path('priority_list',PriorityListView.as_view(), name='priority-list' ),
