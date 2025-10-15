@@ -1,60 +1,58 @@
-
-
-# Create your models here.
 from django.db import models
-from django.utils.timezone import now
+
 
 class BaseModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        abstract = True
+class Meta:
+     abstract = True
+
 
 class Priority(BaseModel):
-    name = models.CharField(max_length=150)
+     name = models.CharField(max_length=150)
 
-    class Meta:
+     class Meta:
         verbose_name = "Priority"
-        verbose_name_plural = "Priorities"
+        verbose_name_plural = "Priorities"  
 
-    def __str__(self):
+
+     def __str__(self):
         return self.name
 
-
 class Category(BaseModel):
-    name = models.CharField(max_length=150)
+     name = models.CharField(max_length=150)
 
-    class Meta:
+     class Meta:
         verbose_name = "Category"
-        verbose_name_plural = "Categories"
+        verbose_name_plural = "Categories" 
 
-    def __str__(self):
+     def __str__(self):
         return self.name
 
 class Task(BaseModel):
-    title= models.CharField(max_length=250)
-    description= models.CharField(max_length=500)
-    deadline = models.DateField(default=now)
-    status = models.CharField(max_length=50, choices = [("Pending", "Pending"), ("In Progress", "In Progress"), ("Completed", "Completed",)], default = "Pending")
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    priority = models.ForeignKey(Priority, on_delete=models.CASCADE)
+     Title = models.CharField(max_length=150)
+     description = models.TextField(max_length=250)
+     deadline = models.DateField()
+     status= models.CharField(max_length=50,choices=[("Pending", "Pending"),("In Progress", "In Progress",),("Completed", "Completed"),] , default="pending")
+     task_category = models.ForeignKey(Category, on_delete=models.CASCADE)
+     task_priority = models.ForeignKey(Priority, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.title
+     def __str__(self):
+        return self.Title
 
 class Note(BaseModel):
-    task = models.ForeignKey(Task, on_delete=models.CASCADE)
-    content = models.TextField()
+     related_task = models.ForeignKey(Task, on_delete=models.CASCADE)
+     content = models.TextField()
 
-    def __str__(self):
-        return self.content[:50] 
+     def __str__(self):
+        return self.content
 
+class  SubTask (BaseModel):
+     parent_task = models.ForeignKey(Task, on_delete=models.CASCADE)
+     title = models.CharField(max_length=200)
+     status= models.CharField(max_length=50,choices=[("Pending", "Pending"),("In Progress", "In Progress",),("Completed", "Completed"),], default="pending")
+     
 
-class Substask(BaseModel):
-    parent_task = models.ForeignKey(Task, on_delete = models.CASCADE)
-    title = models.CharField(max_length = 250)
-    status = models.CharField(max_length=50, choices = [("Pending", "Pending"), ("In Progress", "In Progress"), ("Completed", "Completed",)], default = "Pending")
-
-    def __str__(self):
-        return self.titleO
+     def __str__(self):
+        return self.title
