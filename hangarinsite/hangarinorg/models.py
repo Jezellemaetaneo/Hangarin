@@ -5,8 +5,9 @@ class BaseModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-class Meta:
-     abstract = True
+    class Meta:
+        abstract = True
+
 
 
 class Priority(BaseModel):
@@ -34,7 +35,7 @@ class Task(BaseModel):
      Title = models.CharField(max_length=150)
      description = models.TextField(max_length=250)
      deadline = models.DateField()
-     status= models.CharField(max_length=50,choices=[("Pending", "Pending"),("In Progress", "In Progress",),("Completed", "Completed"),] , default="pending")
+     status= models.CharField(max_length=50,choices=[("pending", "pending"),("In Progress", "In Progress",),("Completed", "Completed"),] , default="pending")
      task_category = models.ForeignKey(Category, on_delete=models.CASCADE)
      task_priority = models.ForeignKey(Priority, on_delete=models.CASCADE)
 
@@ -48,10 +49,10 @@ class Note(BaseModel):
      def __str__(self):
         return self.content
 
-class  SubTask (BaseModel):
+class  SubTask(BaseModel):
      parent_task = models.ForeignKey(Task, on_delete=models.CASCADE)
      title = models.CharField(max_length=200)
-     status= models.CharField(max_length=50,choices=[("Pending", "Pending"),("In Progress", "In Progress",),("Completed", "Completed"),], default="pending")
+     status= models.CharField(max_length=50,choices=[("pending", "pending"),("In Progress", "In Progress",),("Completed", "Completed"),], default="pending")
      
 
      def __str__(self):
