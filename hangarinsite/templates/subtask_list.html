@@ -2,100 +2,141 @@
 {% load static %}
 {% block content %}
 <div class="content">
-  <div class="container-fluid">
-    <h4 class="page-title">SubTasks</h4>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">List of SubTasks</div>
-          </div>
+    <div class="container-fluid">
+        <h4 class="page-title">SubTasks</h4>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">List of SubTasks</div>
+                    </div>
 
-          <!-- 🔍 Search and Add SubTask -->
-          <div class="row px-3 pt-3">
-            <div class="col-md-6">
-              <form class="navbar-left navbar-form nav-search mr-md-3" method="get" action="{% url 'subtask-list' %}">
-                <div class="input-group">
-                  <input type="text" placeholder="Search ..." class="form-control" name="q" value="{{ request.GET.q }}">
-                  <div class="input-group-append">
-                    <span class="input-group-text">
-                      <i class="la la-search search-icon"></i>
-                    </span>
-                  </div>
+                    <!-- 🔍 Search, Sort and Add SubTask -->
+                    <div class="row px-3 pt-3">
+                        <div class="col-md-6">
+                            <form class="navbar-left navbar-form nav-search mr-md-3" method="get" action="">
+                                <div class="input-group">
+                                    <input type="text" placeholder="Search ..." class="form-control" name="q" value="{{ request.GET.q }}">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="la la-search search-icon"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <form class="form-inline justify-content-end" method="get" action="">
+                                <!-- Keep search query in hidden field -->
+                                {% if request.GET.q %}
+                                <input type="hidden" name="q" value="{{ request.GET.q }}">
+                                {% endif %}
+                                
+                                <div class="col-auto">
+                                    <label for="smallSelect" class="col-form-label">Sort by</label>
+                                </div>
+                                <div class="col-auto">
+                                    <select class="form-control form-control-sm" id="smallSelect" name="sort_by">
+                                        <option value="title" {% if request.GET.sort_by == "title" %}selected{% endif %}>
+                                            Title
+                                        </option>
+                                        <option value="deadline" {% if request.GET.sort_by == "deadline" %}selected{% endif %}>
+                                            Deadline
+                                        </option>
+                                        <option value="status" {% if request.GET.sort_by == "status" %}selected{% endif %}>
+                                            Status
+                                        </option>
+                                        <option value="priority" {% if request.GET.sort_by == "priority" %}selected{% endif %}>
+                                            Priority
+                                        </option>
+                                        <option value="category" {% if request.GET.sort_by == "category" %}selected{% endif %}>
+                                            Category
+                                        </option>
+                                        <option value="parent_task" {% if request.GET.sort_by == "parent_task" %}selected{% endif %}>
+                                            Parent Task
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <button type="submit" class="btn btn-primary btn-sm btn-rounded">Sort</button>
+                                </div>
+                            </form>
+                            <a href="{% url 'subtask-add' %}" class="btn btn-success btn-rounded">Add SubTask</a>
+                        </div>
+                    </div>
+
+                    <!-- 📋 SubTask Table -->
+                    <div class="card-body">
+                        <table class="table table-striped mt-3">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Parent Task</th>
+                                    <th scope="col">Deadline</th>
+                                    <th scope="col">Priority</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for subtask in subtask %}
+                                <tr>
+                                    <td>{{ subtask.title }}</td>
+                                    <td>{{ subtask.status }}</td>
+                                    <td>{{ subtask.parent_task.Title }}</td>
+                                    <td>{{ subtask.parent_task.deadline|date:"M d, Y" }}</td>
+                                    <td>{{ subtask.parent_task.task_priority.name }}</td>
+                                    <td>{{ subtask.parent_task.task_category.name }}</td>
+                                    <td>
+                                        <a href="{% url 'subtask-edit' subtask.id %}">Edit</a> |
+                                        <a href="{% url 'subtask-delete' subtask.id %}" class="text-danger">Delete</a>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="7" class="text-center">
+                                        <p class="text-sm font-weight-bold mb-0">No SubTasks Found</p>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                        <!-- 🔽 Pagination -->
+                        {% if is_paginated %}
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center">
+                                {% if page_obj.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}">Previous</a>
+                                </li>
+                                {% endif %}
+
+                                {% for num in paginator.page_range %}
+                                {% if page_obj.number == num %}
+                                <li class="page-item active">
+                                    <span class="page-link">{{ num }}</span>
+                                </li>
+                                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}">{{ num }}</a>
+                                </li>
+                                {% endif %}
+                                {% endfor %}
+
+                                {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}">Next</a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                        {% endif %}
+                    </div>
                 </div>
-              </form>
             </div>
-            <div class="col-md-6 text-right">
-              <a href="{% url 'subtask-add' %}" class="btn btn-success btn-rounded">Add SubTask</a>
-            </div>
-          </div>
-
-          <!-- 📋 SubTask Table -->
-          <div class="card-body">
-            <table class="table table-striped mt-3">
-              <thead>
-                <tr>
-                  <th scope="col">Title</th>
-                  <th scope="col">Status</th>
-                  <th scope="col">Parent Task</th>
-                  <th scope="col">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for subtask in subtask %}
-                <tr>
-                  <td>{{ subtask.title }}</td>
-                  <td>{{ subtask.status }}</td>
-                  <td>{{ subtask.parent_task.Title }}</td>
-                  <td>
-                    <a href="{% url 'subtask-edit' subtask.id %}">Edit</a> |
-                    <a href="{% url 'subtask-delete' subtask.id %}" class="text-danger">Delete</a>
-                  </td>
-                </tr>
-                {% empty %}
-                <tr>
-                  <td colspan="4" class="text-center">
-                    <p class="text-sm font-weight-bold mb-0">No SubTasks Found</p>
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-
-            <!-- 🔽 Pagination -->
-            {% if is_paginated %}
-            <nav aria-label="Page navigation">
-              <ul class="pagination justify-content-center">
-                {% if page_obj.has_previous %}
-                <li class="page-item">
-                  <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Previous</a>
-                </li>
-                {% endif %}
-
-                {% for num in paginator.page_range %}
-                {% if page_obj.number == num %}
-                <li class="page-item active">
-                  <span class="page-link">{{ num }}</span>
-                </li>
-                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                <li class="page-item">
-                  <a class="page-link" href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ num }}</a>
-                </li>
-                {% endif %}
-                {% endfor %}
-
-                {% if page_obj.has_next %}
-                <li class="page-item">
-                  <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next</a>
-                </li>
-                {% endif %}
-              </ul>
-            </nav>
-            {% endif %}
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 {% endblock %}
