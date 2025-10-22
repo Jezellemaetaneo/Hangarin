@@ -1,4 +1,60 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
+<style>
+  /* Dashboard container spacing */
+  .dashboard-container {
+    padding: 30px;
+    background: #ffebee;
+    min-height: 100vh;
+  }  
+
+  /* Section header */
+  .page-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 25px;
+  }
+
+  /* Stat cards layout */
+  .stat-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 20px;
+  }
+
+  /* Card styling */
+  .stat-card {
+    border-radius: 16px;
+    color: white;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .stat-card i {
+    font-size: 2rem;
+    opacity: 0.85;
+  }
+
+  .stat-info h5 {
+    margin: 0;
+    font-size: 0.95rem;
+    opacity: 0.9;
+  }
+
+  .stat-info h2 {
+    margin: 0;
+    font-size: 1.6rem;
+    font-weight: 700;
+  } </style>
 <h4 class="page-title mb-4">Dashboard</h4>
 <div class="content">
   <div class="container-fluid">

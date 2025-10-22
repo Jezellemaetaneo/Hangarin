@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include 
 from hangarinorg.views import (
     HomePageView, PriorityListView, CategoryList, TaskList, NoteList, SubTaskList, 
     PriorityCreateView, CategoryCreateView, TaskCreateView, NoteCreateView, SubTaskCreateView, 
@@ -11,6 +11,9 @@ from hangarinorg.views import index_view
 urlpatterns = [
     path('', index_view, name='home'),  # Serves index.html at root URL
     path("admin/", admin.site.urls),
+    path("accounts/", include("allauth.urls")), # allauth routes 
+ 
+
     
     # List views - ADD TRAILING SLASHES
     path('priority_list/', PriorityListView.as_view(), name='priority-list'),  # Added /

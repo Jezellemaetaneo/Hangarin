@@ -9,6 +9,163 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
 	<link rel="stylesheet" href="{% static 'assets/css/ready.css' %}">
 	<link rel="stylesheet" href="{% static 'assets/css/demo.css' %}">
+	<style>
+		.sidebar {
+          background: linear-gradient(180deg, #fb72a4, #ffcddf) !important;
+          color: #f71668 !important;
+          border-right: none !important;
+          box-shadow: 4px 0 10px rgba(0, 0, 0, 0.05) !important;
+          transition: all 0.3s ease-in-out !important;
+        }
+      
+        /* Sidebar text color */
+        .sidebar .nav-item a p,
+        .sidebar .user-level,
+        .sidebar .info span {
+          color: #4a148c !important;
+        }
+      
+        /* Highlight active menu */
+        .sidebar .nav-item.active a {
+          background-color: rgba(255, 255, 255, 0.3) !important;
+          border-radius: 12px !important;
+        }
+      
+        /* Hover effect for items */
+        .sidebar .nav-item:hover a {
+          background-color: rgba(255, 255, 255, 0.2) !important;
+          color: #880e4f !important;
+          transition: 0.3s;
+        }
+      
+        /* Adjust icon colors */
+        .sidebar .nav-item i {
+          color: #ad1457 !important;
+        }
+      </style>
+      <style>
+        /* 🌸 GLOBAL FONT STYLING */
+        body {
+          font-family: 'Poppins', 'Nunito', sans-serif !important;
+          font-size: 15px;
+          background-color: #fffafc !important;
+          color: #4a148c !important;
+        }
+      
+        h1, h2, h3, h4, h5 {
+          font-weight: 700 !important;
+          color: #ad1457 !important;
+          letter-spacing: 0.5px;
+        }
+      
+        p, td, th, label, a, button {
+          font-family: 'Poppins', sans-serif !important;
+        }
+      
+        /* 🌸 SIDEBAR */
+        .sidebar {
+          background: linear-gradient(180deg, #f8bbd0, #fce4ec) !important;
+          color: #4a148c !important;
+          border-right: none !important;
+          box-shadow: 4px 0 12px rgba(0, 0, 0, 0.08) !important;
+        }
+      
+        .sidebar .nav-item a p,
+        .sidebar .user-level,
+        .sidebar .info span {
+          color: #4a148c !important;
+          font-weight: 600;
+        }
+      
+        .sidebar .nav-item.active a {
+          background-color: rgba(255, 255, 255, 0.35) !important;
+          border-radius: 10px !important;
+        }
+      
+        .sidebar .nav-item:hover a {
+          background-color: rgba(255, 255, 255, 0.2) !important;
+          color: #880e4f !important;
+          transition: 0.3s;
+        }
+      
+        .sidebar .nav-item i {
+          color: #ad1457 !important;
+        }
+      
+        /* 🌸 TABLE DESIGN */
+        table.table {
+          width: 100%;
+          border-collapse: collapse;
+          background-color: #fff !important;
+          box-shadow: 0px 4px 10px rgba(240, 98, 146, 0.15);
+          border-radius: 12px;
+          overflow: hidden;
+        }
+      
+        table.table thead {
+          background-color: #f8bbd0 !important;
+          color: #4a148c !important;
+          font-weight: 600;
+          text-transform: uppercase;
+          font-size: 14px;
+        }
+      
+        table.table th, table.table td {
+          padding: 14px 16px !important;
+          border-bottom: 1px solid #f1f1f1;
+          vertical-align: middle !important;
+        }
+      
+        table.table tbody tr:hover {
+          background-color: #fce4ec !important;
+          transition: 0.2s;
+        }
+      
+        /* 🌸 BUTTON STYLING */
+        .btn {
+          border-radius: 10px !important;
+          font-weight: 600 !important;
+          padding: 8px 18px !important;
+        }
+      
+        .btn-warning {
+          background-color: #f48fb1 !important;
+          border: none !important;
+          color: #fff !important;
+        }
+      
+        .btn-warning:hover {
+          background-color: #ec407a !important;
+        }
+      
+        .btn-success {
+          background-color: #f06292 !important;
+          border: none !important;
+        }
+      
+        .btn-success:hover {
+          background-color: #ec407a !important;
+        }
+      
+        /* 🌸 FORM INPUTS */
+        input.form-control, select.form-control {
+          border-radius: 8px !important;
+          border: 1px solid #f8bbd0 !important;
+          padding: 10px !important;
+        }
+      
+        input.form-control:focus, select.form-control:focus {
+          border-color: #ec407a !important;
+          box-shadow: 0 0 6px rgba(240, 98, 146, 0.3);
+        }
+      
+        /* 🌸 PAGE TITLES */
+        .page-title {
+          color: #ad1457 !important;
+          font-weight: 700;
+          font-size: 22px !important;
+        }
+      </style>
 </head>
 <body>
 	<div class="wrapper">
@@ -104,14 +261,18 @@
 							</ul>
 						</li>
 						<li class="nav-item dropdown">
-							<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false"> <img src="assets/img/profile.jpg" alt="user-img" width="36" class="img-circle"><span >Hizrian</span></span> </a>
+							<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" > 
+								<img src="{% static 'assets/img/profile3.jpg' %}" alt="user-img" width="36" class="img-circle">
+								<span >{{request.user.username}}</span>
+							</span>
+						 </a>
 							<ul class="dropdown-menu dropdown-user">
 								<li>
 									<div class="user-box">
-										<div class="u-img"><img src="{% static 'assets/img/profile.jpg' %}" alt="user"></div>
+										<div class="u-img"><img src="{% static 'assets/img/profile3.jpg' %}" alt="user"></div>
 										<div class="u-text">
 											<h4>{{ request.user.username }}</h4>
-											<p class="text-muted">hello@themekita.com</p><a href="profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a></div>
+											<p class="text-muted">hello@hangarinko.com</p><a href="profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a></div>
 										</div>
 									</li>
 									<div class="dropdown-divider"></div>
@@ -133,7 +294,7 @@
 				<div class="scrollbar-inner sidebar-wrapper">
 					<div class="user">
 						<div class="photo">
-							<img src="{% static 'assets/img/profile.jpg' %}">
+							<img src="{% static 'assets/img/profile3.jpg' %}">
 						</div>
 						<div class="info">
 							<a class="" data-toggle="collapse" href="#collapseExample" aria-expanded="true">
