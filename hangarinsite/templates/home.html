@@ -1,172 +1,103 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
-<style>
-  /* Dashboard container spacing */
-  .dashboard-container {
-    padding: 30px;
-    background: #ffebee;
-    min-height: 100vh;
-  }  
+{% extends 'base.html' %}
 
-  /* Section header */
-  .page-title {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: #333;
-    margin-bottom: 25px;
-  }
+{% block page_title %}Welcome to Hangarin Dashboard 🚀{% endblock %}
 
-  /* Stat cards layout */
-  .stat-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-    gap: 20px;
-  }
-
-  /* Card styling */
-  .stat-card {
-    border-radius: 16px;
-    color: white;
-    padding: 25px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
-  }
-
-  .stat-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  }
-
-  .stat-card i {
-    font-size: 2rem;
-    opacity: 0.85;
-  }
-
-  .stat-info h5 {
-    margin: 0;
-    font-size: 0.95rem;
-    opacity: 0.9;
-  }
-
-  .stat-info h2 {
-    margin: 0;
-    font-size: 1.6rem;
-    font-weight: 700;
-  } </style>
-<h4 class="page-title mb-4">Dashboard</h4>
-<div class="content">
-  <div class="container-fluid">
-    <h4 class="page-title">Dashboard</h4>
-    <div class="row">
-      <div class="col-md-3">
-        <div class="card card-stats card-warning">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-5">
-                <div class="icon-big text-center">
-                  <i class="la la-users"></i>
-                </div>
-              </div>
-              <div class="col-7 d-flex align-items-center">
-                <div class="numbers">
-                  <p class="card-category">Categories</p>
-                  <h4 class="card-title">{{ total_category }}</h4>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card card-stats card-success">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-5">
-                <div class="icon-big text-center">
-                  <i class="la la-bar-chart"></i>
-                </div>
-              </div>
-              <div class="col-7 d-flex align-items-center">
-                <div class="numbers">
-                  <p class="card-category">Notes</p>
-                  <h4 class="card-title">{{ total_note }}</h4>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card card-stats card-secondary">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-5">
-                <div class="icon-big text-center">
-                  <i class="la la-pencil"></i>
-                </div>
-              </div>
-              <div class="col-7 d-flex align-items-center">
-                <div class="numbers">
-                  <p class="card-category">Priorities</p>
-                  <h4 class="card-title">{{ total_priority }}</h4>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card card-stats card-danger">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-5">
-                <div class="icon-big text-center">
-                  <i class="la la-newspaper-o"></i>
-                </div>
-              </div>
-              <div class="col-7 d-flex align-items-center">
-                <div class="numbers">
-                  <p class="card-category">Tasks</p>
-                  <h4 class="card-title">{{ total_task }}</h4>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card card-stats card-primary">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-5">
-                <div class="icon-big text-center">
-                  <i class="la la-check-circle"></i>
-                </div>
-              </div>
-              <div class="col-7 d-flex align-items-center">
-                <div class="numbers">
-                  <p class="card-category">SubTasks</p>
-                  <h4 class="card-title">{{ total_subtask }}</h4>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+{% block content %}
+<!-- Welcome Banner -->
+<div class="card mb-4">
+    <div class="card-body">
+        <h2 class="fw-bold mb-2">Kamusta! 👋 Welcome to Hangarin</h2>
+        <p class="text-muted mb-0">Your all-in-one dashboard to manage tasks, priorities, categories & notes — beautifully organized ✨</p>
     </div>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">Welcome </div>
-            <div class="card-category">Page 1</div>
-          </div>
-          <div class="card-body">Hello!</div>
+</div>
+
+<!-- Stats Row -->
+<div class="row g-4 mb-4">
+    <div class="col-md-3 col-sm-6">
+        <div class="stat-card text-center">
+            <i class="bi bi-list-check fs-1 mb-2 opacity-75"></i>
+            <h2>0</h2>
+            <p class="mb-0 opacity-75">Total Tasks</p>
         </div>
-      </div>
     </div>
-  </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="stat-card text-center" style="background: rgba(52,211,153,0.25);">
+            <i class="bi bi-tags-fill fs-1 mb-2 opacity-75"></i>
+            <h2>0</h2>
+            <p class="mb-0 opacity-75">Categories</p>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="stat-card text-center" style="background: rgba(251,191,36,0.25);">
+            <i class="bi bi-flag-fill fs-1 mb-2 opacity-75"></i>
+            <h2>0</h2>
+            <p class="mb-0 opacity-75">Priorities</p>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="stat-card text-center" style="background: rgba(236,72,153,0.25);">
+            <i class="bi bi-sticky-fill fs-1 mb-2 opacity-75"></i>
+            <h2>0</h2>
+            <p class="mb-0 opacity-75">Notes</p>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Quick Start -->
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="fw-bold mb-3">🚀 Get Started</h5>
+                <p class="text-muted mb-4">Ready to organize your work? Start creating your first task now!</p>
+                <div class="d-grid gap-2">
+                    <a href="/task_list/" class="btn btn-primary">
+                        <i class="bi bi-plus-circle me-2"></i> Create Your First Task
+                    </a>
+                    <a href="/category_list/" class="btn btn-outline-secondary">
+                        <i class="bi bi-tags me-2"></i> Manage Categories
+                    </a>
+                    <a href="/priority_list/" class="btn btn-outline-secondary">
+                        <i class="bi bi-flag me-2"></i> Set Priorities
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent / Quick Links -->
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="fw-bold mb-3">📌 Quick Overview</h5>
+                <ul class="list-unstyled mb-0">
+                    <li class="py-3 border-bottom">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-medium">Tasks</span>
+                            <span class="badge rounded-pill bg-light text-dark">0 items</span>
+                        </div>
+                    </li>
+                    <li class="py-3 border-bottom">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-medium">SubTasks</span>
+                            <span class="badge rounded-pill bg-light text-dark">0 items</span>
+                        </div>
+                    </li>
+                    <li class="py-3 border-bottom">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-medium">Notes</span>
+                            <span class="badge rounded-pill bg-light text-dark">0 items</span>
+                        </div>
+                    </li>
+                    <li class="py-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-medium">Priorities</span>
+                            <span class="badge rounded-pill bg-light text-dark">0 items</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
