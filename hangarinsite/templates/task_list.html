@@ -5,11 +5,19 @@
 {% block content %}
 <div class="card">
     <div class="card-body">
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
             <h4 class="fw-bold mb-0">Tasks</h4>
-            <a href="/task_create/" class="btn btn-primary">
-                <i class="bi bi-plus-circle me-2"></i> Add Task
-            </a>
+            <div class="d-flex gap-2">
+                <form method="get" class="d-flex">
+                    <input type="search" name="q" class="form-control" placeholder="Search tasks..." value="{{ request.GET.q }}">
+                    <button type="submit" class="btn btn-outline-secondary ms-2">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </form>
+                <a href="/task_list/add/" class="btn btn-primary">
+                    <i class="bi bi-plus-circle me-1"></i> Add
+                </a>
+            </div>
         </div>
 
         {% if object_list %}
@@ -38,10 +46,10 @@
                             {% endif %}
                         </td>
                         <td class="text-end">
-                            <a href="/task_update/{{ task.pk }}/" class="btn btn-sm btn-outline-secondary">
+                            <a href="/task_list/edit/{{ task.pk }}/" class="btn btn-sm btn-outline-secondary">
                                 <i class="bi bi-pencil"></i> Edit
                             </a>
-                            <a href="/task_delete/{{ task.pk }}/" class="btn btn-sm btn-outline-danger">
+                            <a href="/task_list/delete/{{ task.pk }}/" class="btn btn-sm btn-outline-danger">
                                 <i class="bi bi-trash"></i> Delete
                             </a>
                         </td>
@@ -53,9 +61,9 @@
         {% else %}
         <div class="text-center py-5">
             <i class="bi bi-list-check display-1 text-opacity-25"></i>
-            <p class="text-muted mt-3">No tasks yet. Start your first task now!</p>
-            <a href="/task_create/" class="btn btn-primary mt-2">
-                <i class="bi bi-plus-circle me-2"></i> Add First Task
+            <p class="text-muted mt-3">No tasks found.</p>
+            <a href="/task_list/add/" class="btn btn-primary mt-2">
+                <i class="bi bi-plus-circle me-1"></i> Add First Task
             </a>
         </div>
         {% endif %}

@@ -5,11 +5,20 @@
 {% block content %}
 <div class="card">
     <div class="card-body">
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        <!-- Search & Add Bar -->
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
             <h4 class="fw-bold mb-0">Priorities</h4>
-            <a href="/priority_create/" class="btn btn-primary">
-                <i class="bi bi-plus-circle me-2"></i> Add Priority
-            </a>
+            <div class="d-flex gap-2">
+                <form method="get" class="d-flex">
+                    <input type="search" name="q" class="form-control" placeholder="Search priorities..." value="{{ request.GET.q }}">
+                    <button type="submit" class="btn btn-outline-secondary ms-2">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </form>
+                <a href="/priority_list/add/" class="btn btn-primary">
+                    <i class="bi bi-plus-circle me-1"></i> Add
+                </a>
+            </div>
         </div>
 
         {% if object_list %}
@@ -30,10 +39,10 @@
                             <span class="badge rounded-pill bg-primary">{{ prio.level|default:"Normal" }}</span>
                         </td>
                         <td class="text-end">
-                            <a href="/priority_update/{{ prio.pk }}/" class="btn btn-sm btn-outline-secondary">
+                            <a href="/priority_list/edit/{{ prio.pk }}/" class="btn btn-sm btn-outline-secondary">
                                 <i class="bi bi-pencil"></i> Edit
                             </a>
-                            <a href="/priority_delete/{{ prio.pk }}/" class="btn btn-sm btn-outline-danger">
+                            <a href="/priority_list/delete/{{ prio.pk }}/" class="btn btn-sm btn-outline-danger">
                                 <i class="bi bi-trash"></i> Delete
                             </a>
                         </td>
@@ -45,9 +54,9 @@
         {% else %}
         <div class="text-center py-5">
             <i class="bi bi-flag display-1 text-opacity-25"></i>
-            <p class="text-muted mt-3">No priorities yet. Set your first priority level!</p>
-            <a href="/priority_create/" class="btn btn-primary mt-2">
-                <i class="bi bi-plus-circle me-2"></i> Add First Priority
+            <p class="text-muted mt-3">No priorities found.</p>
+            <a href="/priority_list/add/" class="btn btn-primary mt-2">
+                <i class="bi bi-plus-circle me-1"></i> Add First Priority
             </a>
         </div>
         {% endif %}
