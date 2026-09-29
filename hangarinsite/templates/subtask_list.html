@@ -7,7 +7,7 @@
     <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h4 class="fw-bold mb-0">SubTasks</h4>
-            <a href="{% url 'subtask_create' %}" class="btn btn-primary">
+            <a href="/subtask_create/" class="btn btn-primary">
                 <i class="bi bi-plus-circle me-2"></i> Add SubTask
             </a>
         </div>
@@ -36,10 +36,10 @@
                             {% endif %}
                         </td>
                         <td class="text-end">
-                            <a href="{% url 'subtask_update' subtask.pk %}" class="btn btn-sm btn-outline-secondary">
+                            <a href="/subtask_update/{{ subtask.pk }}/" class="btn btn-sm btn-outline-secondary">
                                 <i class="bi bi-pencil"></i> Edit
                             </a>
-                            <a href="{% url 'subtask_delete' subtask.pk %}" class="btn btn-sm btn-outline-danger">
+                            <a href="/subtask_delete/{{ subtask.pk }}/" class="btn btn-sm btn-outline-danger">
                                 <i class="bi bi-trash"></i> Delete
                             </a>
                         </td>
@@ -52,7 +52,7 @@
         <div class="text-center py-5">
             <i class="bi bi-list-nested display-1 text-opacity-25"></i>
             <p class="text-muted mt-3">No subtasks yet. Break down your tasks now!</p>
-            <a href="{% url 'subtask_create' %}" class="btn btn-primary mt-2">
+            <a href="/subtask_create/" class="btn btn-primary mt-2">
                 <i class="bi bi-plus-circle me-2"></i> Add First SubTask
             </a>
         </div>
