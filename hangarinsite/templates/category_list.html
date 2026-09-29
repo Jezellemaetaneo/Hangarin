@@ -1,69 +1,54 @@
 {% extends 'base.html' %}
-{% load static %}
+
+{% block page_title %}📂 Categories{% endblock %}
+
 {% block content %}
-<div class="content">
-    <div class="container-fluid">
-        <h4 class="page-title">Categories</h4>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">List of Categories</div>
-                    </div>
-
-                    <!-- 🔍 Search and Add Category -->
-                    <div class="row px-3 pt-3">
-                        <div class="col-md-6">
-                            <form class="navbar-left navbar-form nav-search mr-md-3" method="get" action="">
-                                <div class="input-group">
-                                    <input type="text" placeholder="Search ..." class="form-control" name="q" value="{{ request.GET.q }}">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text">
-                                            <i class="la la-search search-icon"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="col-md-6 text-right">
-                            <a href="{% url 'category-add' %}" class="btn btn-success btn-rounded">Add Category</a>
-                        </div>
-                    </div>
-
-                    <!-- 📋 Category Table -->
-                    <div class="card-body">
-                        <table class="table table-striped mt-3">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for object in object_list %}
-                                <tr>
-                                    <td>{{ object.name }}</td>
-                                    <td>
-                                        <a href="{% url 'category-edit' object.id %}">Edit</a> |
-                                        <a href="{% url 'category-delete' object.id %}" class="text-danger">Delete</a>
-                                    </td>
-                                </tr>
-                                {% empty %}
-                                <tr>
-                                    <td colspan="2" class="text-center">
-                                        <p class="text-sm font-weight-bold mb-0">No Categories Found</p>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-
-                        <!-- Use the same pagination include as your friend -->
-                        {% include 'includes/pagination.html' %}
-                    </div>
-                </div>
-            </div>
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="fw-bold mb-0">Categories</h4>
+            <a href="{% url 'category_create' %}" class="btn btn-primary">
+                <i class="bi bi-plus-circle me-2"></i> Add Category
+            </a>
         </div>
+
+        {% if object_list %}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th width="180" class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cat in object_list %}
+                    <tr>
+                        <td class="fw-medium">{{ cat.name }}</td>
+                        <td class="text-muted">{{ cat.description|default:"—" }}</td>
+                        <td class="text-end">
+                            <a href="{% url 'category_update' cat.pk %}" class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-pencil"></i> Edit
+                            </a>
+                            <a href="{% url 'category_delete' cat.pk %}" class="btn btn-sm btn-outline-danger">
+                                <i class="bi bi-trash"></i> Delete
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <i class="bi bi-tags display-1 text-opacity-25"></i>
+            <p class="text-muted mt-3">No categories yet. Create your first one!</p>
+            <a href="{% url 'category_create' %}" class="btn btn-primary mt-2">
+                <i class="bi bi-plus-circle me-2"></i> Add First Category
+            </a>
+        </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

@@ -1,98 +1,58 @@
 {% extends 'base.html' %}
-{% load static %}
+
+{% block page_title %}🚩 Priorities{% endblock %}
+
 {% block content %}
-<div class="content">
-  <div class="container-fluid">
-    <h4 class="page-title">Priorities</h4>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">List of Priorities</div>
-          
-          </div>
-
-          <!-- 🔍 Search and Add Priority -->
-          <div class="row px-3 pt-3">
-            <div class="col-md-6">
-              <form class="navbar-left navbar-form nav-search mr-md-3" method="get" action="{% url 'priority-list' %}">
-                <div class="input-group">
-                  <input type="text" placeholder="Search ..." class="form-control" name="q" value="{{ request.GET.q }}">
-                  <div class="input-group-append">
-                    <span class="input-group-text">
-                      <i class="la la-search search-icon"></i>
-                    </span>
-                  </div>
-                </div>
-              </form>
-            </div>
-            <div class="col-md-6 text-right">
-              <a href="{% url 'priority-add' %}" class="btn btn-success btn-rounded">Add Priority</a>
-            </div>
-          </div>
-
-          <!-- 📋 Priority Table -->
-          <div class="card-body">
-            <table class="table table-striped mt-3">
-              <thead>
-                <tr>
-                  <th scope="col">Name</th>
-                  <th scope="col">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for priority in priority %}
-                <tr>
-                  <td>{{ priority.name }}</td>
-                  <td>
-                    <a href="{% url 'priority-edit' priority.id %}">Edit</a> |
-                    <a href="{% url 'priority-delete' priority.id %}" class="text-danger">Delete</a>
-                  </td>
-                </tr>
-                {% empty %}
-                <tr>
-                  <td colspan="2" class="text-center">
-                    <p class="text-sm font-weight-bold mb-0">No Priorities Found</p>
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-
-            <!-- 🔽 Pagination -->
-            {% if is_paginated %}
-            <nav aria-label="Page navigation">
-              <ul class="pagination justify-content-center">
-                {% if page_obj.has_previous %}
-                <li class="page-item">
-                  <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Previous</a>
-                </li>
-                {% endif %}
-
-                {% for num in paginator.page_range %}
-                {% if page_obj.number == num %}
-                <li class="page-item active">
-                  <span class="page-link">{{ num }}</span>
-                </li>
-                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                <li class="page-item">
-                  <a class="page-link" href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ num }}</a>
-                </li>
-                {% endif %}
-                {% endfor %}
-
-                {% if page_obj.has_next %}
-                <li class="page-item">
-                  <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next</a>
-                </li>
-                {% endif %}
-              </ul>
-            </nav>
-            {% endif %}
-          </div>
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="fw-bold mb-0">Priorities</h4>
+            <a href="{% url 'priority_create' %}" class="btn btn-primary">
+                <i class="bi bi-plus-circle me-2"></i> Add Priority
+            </a>
         </div>
-      </div>
+
+        {% if object_list %}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Level / Color</th>
+                        <th width="180" class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for prio in object_list %}
+                    <tr>
+                        <td class="fw-medium">{{ prio.name }}</td>
+                        <td>
+                            <span class="badge rounded-pill" style="background: {{ prio.color|default:'#6366f1' }};">
+                                {{ prio.level|default:"Normal" }}
+                            </span>
+                        </td>
+                        <td class="text-end">
+                            <a href="{% url 'priority_update' prio.pk %}" class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-pencil"></i> Edit
+                            </a>
+                            <a href="{% url 'priority_delete' prio.pk %}" class="btn btn-sm btn-outline-danger">
+                                <i class="bi bi-trash"></i> Delete
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <i class="bi bi-flag display-1 text-opacity-25"></i>
+            <p class="text-muted mt-3">No priorities yet. Set your first priority level!</p>
+            <a href="{% url 'priority_create' %}" class="btn btn-primary mt-2">
+                <i class="bi bi-plus-circle me-2"></i> Add First Priority
+            </a>
+        </div>
+        {% endif %}
     </div>
-  </div>
 </div>
 {% endblock %}
