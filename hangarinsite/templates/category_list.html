@@ -26,7 +26,6 @@
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Description</th>
                         <th width="180" class="text-end">Actions</th>
                     </tr>
                 </thead>
@@ -34,7 +33,6 @@
                     {% for cat in object_list %}
                     <tr>
                         <td class="fw-medium">{{ cat.name }}</td>
-                        <td class="text-muted">{{ cat.description|default:"—" }}</td>
                         <td class="text-end">
                             <a href="/category_list/edit/{{ cat.pk }}/" class="btn btn-sm btn-outline-secondary">
                                 <i class="bi bi-pencil"></i> Edit

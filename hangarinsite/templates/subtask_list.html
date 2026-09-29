@@ -34,11 +34,13 @@
                 <tbody>
                     {% for subtask in object_list %}
                     <tr>
-                        <td class="fw-medium">{{ subtask.title }}</td>
-                        <td class="text-muted">{{ subtask.task|default:"—" }}</td>
+                        <td class="fw-bold text-dark">{{ subtask.title }}</td>
+                        <td class="text-muted">{{ subtask.parent_task.Title }}</td>
                         <td>
-                            {% if subtask.is_completed %}
-                            <span class="badge bg-success">Done</span>
+                            {% if subtask.status == "Completed" %}
+                            <span class="badge bg-success">Completed</span>
+                            {% elif subtask.status == "In Progress" %}
+                            <span class="badge bg-primary">In Progress</span>
                             {% else %}
                             <span class="badge bg-warning text-dark">Pending</span>
                             {% endif %}
