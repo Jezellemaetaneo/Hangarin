@@ -19,10 +19,8 @@ INSTALLED_APPS = [
     
     'allauth',
     'allauth.account',
-    # Alisin muna ang mga sumusunod — may problema sa setup:
-    # 'allauth.socialaccount',
-    # 'allauth.socialaccount.providers.google',
-    # 'allauth.socialaccount.providers.github',
+    'allauth.socialaccount',  # ← IBALIK ITO
+    # 'allauth.socialaccount.providers.google',  # ← provider lang ang alisin
     
     'hangarinorg',
 ]
