@@ -3,11 +3,17 @@ import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'ilagay_dito_ang_iyong_secret_key'
+SECRET_KEY = 'django-insecure-m#xp39-vvzefarlwkeq=$fyj7ur$3)16bh2(a=x26+re&02%'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['zellemae.pythonanywhere.com', 'jezellemaetaneo.pythonanywhere.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = [
+    'zellemae.pythonanywhere.com',
+    'jezellemaetaneo.pythonanywhere.com',
+    'localhost',
+    '127.0.0.1'
+]
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -19,11 +25,14 @@ INSTALLED_APPS = [
     
     'allauth',
     'allauth.account',
-    'allauth.socialaccount',  # ← IBALIK ITO
-    # 'allauth.socialaccount.providers.google',  # ← provider lang ang alisin
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.github',
     
     'hangarinorg',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -70,6 +79,11 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Asia/Manila'
 USE_I18N = True
@@ -80,16 +94,9 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-]
-
-SITE_ID = 1
-
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
+ACCOUNT_EMAIL_REQUIRED = False
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_USERNAME_REQUIRED = True
-ACCOUNT_EMAIL_REQUIRED = False
